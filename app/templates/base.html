@@ -1,0 +1,16 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - VueApp</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='lib/vue.js') }}"></script>
+<script src="{{ url_for('static', filename='lib/socket.io.js') }}"></script>
+
+<nav>
+  <h1><a href="{{ url_for('index') }}">VueApp</a></h1>
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>  
+  {% block content %}{% endblock %}
+</section>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
