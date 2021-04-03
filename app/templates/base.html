@@ -3,14 +3,17 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <script src="{{ url_for('static', filename='lib/vue.js') }}"></script>
 <script src="{{ url_for('static', filename='lib/socket.io.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.1/dist/chart.min.js"></script>
 
 <nav>
-  <h1><a href="{{ url_for('index') }}">VueApp</a></h1>
+    <h1><a href="{{ url_for('index') }}">VueApp</a></h1>
 </nav>
 <section class="content">
-  <header>
-    {% block header %}{% endblock %}
-  </header>  
-  {% block content %}{% endblock %}
+    <header>
+        {% block header %}{% endblock %}
+    </header>
+    {% block content %}{% endblock %}
 </section>
 <script src="{{ url_for('static', filename='main.js') }}"></script>

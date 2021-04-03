@@ -10,16 +10,30 @@ class SolarStation():
         if(DateTo == ''):
             DateTo=datetime.now().replace(second=0, microsecond=0)
         
-        df = pd.read_csv('./data.csv')   
+        df = pd.read_csv('./data.csv',parse_dates=[0])   
         #df.Date = pd.to_datetime(df.Date, format = '%Y-%m-%d %H:%M:%S')
-        df.Date= df.Date.apply(lambda x: 
-                                    datetime.strptime(x,'%Y-%m-%d %H:%M:%S'))
+        # df.Date= df.Date.apply(lambda x: 
+        #                             datetime.strptime(x,'%Y-%m-%d %H:%M:%S'))
        
         df = df.query("Date >=  '" + str(DateFrom) + "' and Date <= '" + str(DateTo) + "'")
         #df = df[(df.Date > DateFrom) & (df.Date > a)]
-        data =df.assign(**df.select_dtypes(['datetime']).astype(str).to_dict('list')).to_json(orient="records") #date_format = "iso" # df.to_json(orient = "records") 
-        print(data)
-        return json.loads(data)
+        #data = df.assign(**df.select_dtypes(['datetime']).astype(str).to_dict('list')).to_json(orient="records") #date_format = "iso" # df.to_json(orient = "records") 
+        data= {}
+
+        df.Date = df.Date.dt.strftime('%Y-%m-%d %H:%M:%S')
+
+        #df.Date.apply(datetime.strftime('%Y-%m-%d %H:%M:%S'))
+        #pd.strftime()
+        #pd.to_datetime(pd.Series(df.Date))
+        #df['Date'] = df.loc['Date'].dt.strftime('%Y-%m-%d %H:%M:%S')
+        df = df.to_dict()
+        # data['SolarVoltage'] =list(df.Date)
+        # data['SolarCurrent']  =list(df.Date)
+        # data['BattVoltage'] = list(df.Date)
+        # data['BattCurrent'] = list(df.Date)
+        # data['LoadCurrent'] = df.LoadCurrent.toList()
+        
+        return  df
     def loadLiveData(self,port="dev/ttyRSX0"):
         try:
             client = ModbusClient(method = 'rtu', port = port, baudrate = 115200)
