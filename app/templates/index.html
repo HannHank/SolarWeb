@@ -3,7 +3,13 @@
 {% endblock %} {% block content %} {% raw %}
 <div id="app">
     <p v-if="isConnected">We're connected to the server!</p>
-    <p>Message from server: "{{data['data']}}"</p>
-    <button @click="loadData()">Ping Server</button>
+    <h3 v-if="errMsg == ''">Status: System up</h1>
+        <h3 v-else>Status: {{errMsg}}</h1>
+            <input v-model="DateFrom">
+            <button @click="loadData()">loadData</button>
+            <button @click="loadLiveData()">LiveData</button>
+
+            <h4>Requested Data:</h4>
+            <p v-if="data != 0">{{data}}</p>
 </div>
 {% endraw %} {% endblock %}
