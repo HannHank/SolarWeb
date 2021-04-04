@@ -1,8 +1,9 @@
 var socket = io()
 
 // get old day and set as default date
-var d = new Date()
-d.setDate(d.getDate() - 1);
+var d = new Date() // getHours(
+    // d.setDate(d.getDate() - 1);
+d.setHours(d.getHours() - 5);
 d = d.toISOString().replace(/T/, ' ').replace(/\..+/, '')
 Vue.component("line-chart", {
     extends: VueChartJs.Line,
@@ -79,8 +80,24 @@ var app = new Vue({
         datacollection: null,
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
         lol: [1, 3, 5, 6],
-        chartData: [3, 2, 3],
-        dataChart: {},
+        liveData: {
+            'Dates': 0,
+            'SolarVoltage': 0,
+            'SolarCurrent': 0,
+            'BattVoltage': 0,
+            'BattCurrent': 0,
+            'LoadCurrent': 0
+        },
+
+
+        dataChart: {
+            'Dates': [],
+            'SolarVoltage': [],
+            'SolarCurrent': [],
+            'BattVoltage': [],
+            'BattCurrent': [],
+            'LoadCurrent': []
+        },
 
     },
     methods: {
@@ -90,19 +107,38 @@ var app = new Vue({
         loadData: function() {
             socket.emit('loadData', {
                 'DateFrom': this.DateFrom,
-                'DateTo': this.DateTo
+                'DateTo': this.DateTo,
+                'updating': '0'
             })
         },
         loadLiveData: function() {
-            socket.emit('liveData')
+
+            socket.emit('loadData', {
+                    'DateFrom': this.DateFrom,
+                    'DateTo': this.DateTo,
+                    'updating': '1'
+                })
+                //socket.emit('liveData')
+                //   console.log("live data:", this.dataChart)
+
         },
 
         getRandomInt() {
             return Math.floor(Math.random() * (50 - 5 + 1)) + 5
-        }
+        },
 
 
+    },
+    async mounted() {
+
+        // this.loadData();
+        setInterval(async() => {
+            this.getLiveData()
+            socket.emit('liveData')
+                // console.log("dataset: ",this.labels,this.data);
+        }, 3600000);
     }
+
 })
 
 
@@ -120,20 +156,51 @@ socket.on('pingResponse', function(msg) {
 });
 socket.on('loadedData', function(msg) {
     console.log("data: " + msg)
-    app.data = msg
+        //§ app.data = msg
+    console.log(msg)
+    app.DateFrom = msg['newDate']
     app.dataChart = msg
+
 
 
 
 })
 
 socket.on('loadedLiveData', function(msg) {
-    console.log(msg.data)
-    if (msg.data == false) {
-        app.errMsg = msg.errMsg
-    } else {
-        app.data.push(msg.data);
-        app.errMsg = ''
+
+    // if (msg.data == false) {
+    //     app.errMsg = msg.errMsg
+    // } else {
+
+
+
+    // constructor['SolarVoltage'].push(msg.data['SolarVoltage'])
+    // constructor['SolarCurrent'].push(msg.data['SolarCurrent'])
+    // constructor['BattVoltage'].push(msg.data['BattVoltage'])
+    // constructor['BattCurrent'].push(msg.data['BattCurrent'])
+    // constructor['LoadCurrent'].push(msg.data['LoadCurrent'])
+    for (i = 0; i < 5; i++) {
+        liveData[Object.keys(liveData)[i]] = Object.keys(msg.data)[i]
+    }
+    console.log("liveData", liveData)
+    c = app.dataChart
+    newPosition = c['Dates'].length + 1
+    c['Dates'][newPosition] = msg.data['Dates']
+    c['SolarVoltage'][newPosition] = msg.data['SolarVoltage']
+    c['SolarCurrent'][newPosition] = msg.data['SolarCurrent']
+    c['BattVoltage'][newPosition] = msg.data['BattVoltage']
+    c['BattCurrent'][newPosition] = msg.data['BattCurrent']
+    c['LoadCurrent'][newPosition] = msg.data['LoadCurrent']
+    app.dataChart = {
+        'Dates': c['Dates'],
+        'SolarVoltage': c['SolarVoltage'],
+        'SolarCurrent': c['SolarCurrent'],
+        'BattVoltage': c['BattVoltage'],
+        'BattCurrent': c['BattCurrent'],
+        'LoadCurrent': c['LoadCurrent']
 
     }
+    app.errMsg = ''
+    console.log(app.dataChart)
+        // }
 })

@@ -15,6 +15,11 @@
                 <line-chart :data="dataChart " :options="{responsive: true, maintainAspectRatio: false} "></line-chart>
 
             </div>
+            <p>SolarVoltage {{dataChart['SolarVoltage'][(dataChart['SolarVoltage'].length -1)]}}</p>
+            <p>SolarCurrent {{dataChart['SolarCurrent'][(dataChart['SolarCurrent'].length -1)]}}</p>
+            <p>BattVoltage {{dataChart['BattVoltage'][(dataChart['BattVoltage'].length -1)]}}</p>
+            <p>BattCurrent {{dataChart['BattCurrent'][(dataChart['BattCurrent'].length -1)]}}</p>
+            <p>LoadCurrent {{dataChart['LoadCurrent'][(dataChart['LoadCurrent'].length -1)]}}</p>
 </div>
 <!-- <div id="app">
     {{ dataChart }}

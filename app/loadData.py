@@ -2,10 +2,12 @@ import pandas as pd
 from pymodbus.client.sync import ModbusSerialClient as ModbusClient
 from datetime import * 
 import json
+import random
+
 class SolarStation():
     def __init__(self):
         print("init solar")
-    def loadHistory(self,DateFrom, DateTo=datetime.now().replace(second=0, microsecond=0)):
+    def loadHistory(self,DateFrom, DateTo=datetime.now().replace(second=0, microsecond=0),updating='0'):
         #DateFrom = datetime.strptime('2021-04-03 06:19:00', '%Y-%m-%d %H:%M:%S')
         if(DateTo == ''):
             DateTo=datetime.now().replace(second=0, microsecond=0)
@@ -16,7 +18,14 @@ class SolarStation():
         #df.Date = pd.to_datetime(df.Date, format = '%Y-%m-%d %H:%M:%S')
         # df.Date= df.Date.apply(lambda x: 
         #                             datetime.strptime(x,'%Y-%m-%d %H:%M:%S'))
-       
+        upDate = DateFrom
+        if updating == '1':
+            upDate = datetime.strptime(DateFrom, "%Y-%m-%d %H:%M:%S")
+            print("Date",upDate)
+            upDate = upDate  + timedelta(minutes=6)
+            print("Date after", upDate)
+            upDate = upDate.strftime('%Y-%m-%d %H:%M:%S')
+
         df = df.query("Date >=  '" + str(DateFrom) + "' and Date <= '" + str(DateTo) + "'")
         #df = df[(df.Date > DateFrom) & (df.Date > a)]
         #data = df.assign(**df.select_dtypes(['datetime']).ast  ype(str).to_dict('list')).to_json(orient="records") #date_format = "iso" # df.to_json(orient = "records") 
@@ -46,7 +55,7 @@ class SolarStation():
         #pd.to_datetime(pd.Series(df.Date))
         #df['Date'] = df.loc['Date'].dt.strftime('%Y-%m-%d %H:%M:%S')
         #df = df.to_dict()
-        return  {'Dates':Dates,'SolarVoltage':SolarVoltage,'SolarCurrent':SolarCurrent,'BattVoltage':BattVoltage,'BattCurrent':BattCurrent,'LoadCurrent':LoadCurrent}
+        return  {'Dates':Dates,'SolarVoltage':SolarVoltage,'SolarCurrent':SolarCurrent,'BattVoltage':BattVoltage,'BattCurrent':BattCurrent,'LoadCurrent':LoadCurrent,'newDate':upDate}
     def loadLiveData(self,port="dev/ttyRSX0"):
         try:
             client = ModbusClient(method = 'rtu', port = port, baudrate = 115200)
@@ -87,5 +96,5 @@ class SolarStation():
         except:
             # could not read data from station
 
-            return {"Date":"2021-04-03 06:34:00","SolarVoltage":19.32,"SolarCurrent":0.0,"BattVoltage":25.36,"BattCurrent":0.0,"LoadCurrent":0.0}
+            return {"Dates":datetime.now().replace(second=0, microsecond=0).strftime('%Y-%m-%d %H:%M:%S'),"SolarVoltage":1,"SolarCurrent": 2,"BattVoltage":3,"BattCurrent": 2,"LoadCurrent":3}
 
