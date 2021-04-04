@@ -8,16 +8,9 @@ class SolarStation():
     def __init__(self):
         print("init solar")
     def loadHistory(self,DateFrom, DateTo=datetime.now().replace(second=0, microsecond=0),updating='0'):
-        #DateFrom = datetime.strptime('2021-04-03 06:19:00', '%Y-%m-%d %H:%M:%S')
         if(DateTo == ''):
             DateTo=datetime.now().replace(second=0, microsecond=0)
-       
-
         df = pd.read_csv('./data.csv',parse_dates=[0])   
-    
-        #df.Date = pd.to_datetime(df.Date, format = '%Y-%m-%d %H:%M:%S')
-        # df.Date= df.Date.apply(lambda x: 
-        #                             datetime.strptime(x,'%Y-%m-%d %H:%M:%S'))
         upDate = DateFrom
         if updating == '1':
             upDate = datetime.strptime(DateFrom, "%Y-%m-%d %H:%M:%S")
@@ -25,10 +18,8 @@ class SolarStation():
             upDate = upDate  + timedelta(minutes=6)
             print("Date after", upDate)
             upDate = upDate.strftime('%Y-%m-%d %H:%M:%S')
-
+        
         df = df.query("Date >=  '" + str(DateFrom) + "' and Date <= '" + str(DateTo) + "'")
-        #df = df[(df.Date > DateFrom) & (df.Date > a)]
-        #data = df.assign(**df.select_dtypes(['datetime']).ast  ype(str).to_dict('list')).to_json(orient="records") #date_format = "iso" # df.to_json(orient = "records") 
         # this code is not very efficient, but pandas sucks... TODO
         Dates = []
         SolarVoltage = []
@@ -44,17 +35,6 @@ class SolarStation():
             BattCurrent.append(row[4])
             LoadCurrent.append(row[5])
 
-        #for idx, val in enumerate(df.columns):
-               
-               # test[val].append(row[idx])
-            
-        #df.Date = df.Date.dt.strftime('%Y-%m-%d %H:%M:%S')
-        #print("test",Dates)
-        #df.Date.apply(datetime.strftime('%Y-%m-%d %H:%M:%S'))
-        #pd.strftime()
-        #pd.to_datetime(pd.Series(df.Date))
-        #df['Date'] = df.loc['Date'].dt.strftime('%Y-%m-%d %H:%M:%S')
-        #df = df.to_dict()
         return  {'Dates':Dates,'SolarVoltage':SolarVoltage,'SolarCurrent':SolarCurrent,'BattVoltage':BattVoltage,'BattCurrent':BattCurrent,'LoadCurrent':LoadCurrent,'newDate':upDate}
     def loadLiveData(self,port="dev/ttyRSX0"):
         try:

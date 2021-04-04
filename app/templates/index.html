@@ -1,38 +1,65 @@
 {% extends 'base.html' %} {% block header %}
-<h1>{% block title %}Index{% endblock %}</h1>
+<h1>{% block title %}Hanke Solar Dashboard{% endblock %}</h1>
 {% endblock %} {% block content %} {% raw %}
 <div id="app">
-    <p v-if="isConnected">We're connected to the server!</p>
-    <h3 v-if="errMsg == ''">Status: System up</h1>
-        <h3 v-else>Status: {{errMsg}}</h1>
-            <input v-model="DateFrom">
-            <button @click="loadData()">loadData</button>
-            <button @click="loadLiveData()">LiveData</button>
-
-            <h4>Requested Data:</h4>
-            <!-- <p v-if="data != 0">{{data}}</p> -->
-            <div class="small">
-                <line-chart :data="dataChart " :options="{responsive: true, maintainAspectRatio: false} "></line-chart>
-
-            </div>
-            <p>SolarVoltage {{dataChart['SolarVoltage'][(dataChart['SolarVoltage'].length -1)]}}</p>
-            <p>SolarCurrent {{dataChart['SolarCurrent'][(dataChart['SolarCurrent'].length -1)]}}</p>
-            <p>BattVoltage {{dataChart['BattVoltage'][(dataChart['BattVoltage'].length -1)]}}</p>
-            <p>BattCurrent {{dataChart['BattCurrent'][(dataChart['BattCurrent'].length -1)]}}</p>
-            <p>LoadCurrent {{dataChart['LoadCurrent'][(dataChart['LoadCurrent'].length -1)]}}</p>
+    <div class="block" id="liveData">
+        <h2>Live Data</h2>
+        <table>
+            <tr>
+                <td>SolarVoltage:</td>
+                <td>{{dataChart['SolarVoltage'][(dataChart['SolarVoltage'].length -1)]}}</td>
+            </tr>
+            <tr>
+                <td>SolarCurrent:</td>
+                <td>{{dataChart['SolarCurrent'][(dataChart['SolarCurrent'].length -1)]}}</td>
+            </tr>
+            <tr>
+                <td>BattVoltage:</td>
+                <td>{{dataChart['BattVoltage'][(dataChart['BattVoltage'].length -1)]}}</td>
+            </tr>
+            <tr>
+                <td>BattCurrent:</td>
+                <td>{{dataChart['BattCurrent'][(dataChart['BattCurrent'].length -1)]}}</td>
+            </tr>
+            <tr>
+                <td>LoadCurrent:</td>
+                <td>{{dataChart['LoadCurrent'][(dataChart['LoadCurrent'].length -1)]}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="block" id="chart">
+        <h2>History</h2>
+        <line-chart :data="dataChart " :options="{responsive: true, maintainAspectRatio: false} "></line-chart>
+    </div>
+    <div class="block" id="settings">
+        <h2>Settings</h2>
+        <input v-model="DateFrom">
+        <button @click="loadData()">loadData</button>
+    </div>
 </div>
-<!-- <div id="app">
-    {{ dataChart }}
-    <button v-on:click="loadData ">Change data</button>
-    <line-chart :data="dataChart " :options="{responsive: true, maintainAspectRatio: false} "></line-chart>
-
-</div> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.min.js "></script>
 <script src="https://unpkg.com/vue-chartjs@2.5.7-rc3/dist/vue-chartjs.full.min.js "></script>
+
 <style>
-    .small {
-        max-width: 600px;
-        margin: 150px auto;
+    body {
+        height: 100vh;
+    }
+    
+    #app {
+        display: grid;
+        grid-template-columns: 0.7fr 1fr;
+        grid-gap: 10px;
+    }
+    
+    @media only screen and (max-width: 1000px) {
+        body {
+            min-height: 100vh;
+            text-align: center;
+        }
+        #app {
+            min-width: 100vh;
+            grid-template-columns: repeat(1, 1fr);
+        }
     }
 </style>
 {% endraw %} {% endblock %}

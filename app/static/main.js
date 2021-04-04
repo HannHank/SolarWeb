@@ -52,10 +52,29 @@ Vue.component("line-chart", {
                         backgroundColor: "rgba(50, 168, 158, 0.2)",
                         borderColor: "rgba(50, 168, 158, 0.6)",
                         data: this.chartData['LoadCurrent']
-                    }
-
+                    },
                 ]
-            }, { responsive: true, maintainAspectRatio: false });
+            }, {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    labels: {
+                        fontColor: '#FFFFFF',
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: '#F4A261',
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: '#F4A261',
+                        }
+                    }]
+                }
+            }, );
         }
     },
     watch: {
@@ -88,8 +107,6 @@ var app = new Vue({
             'BattCurrent': 0,
             'LoadCurrent': 0
         },
-
-
         dataChart: {
             'Dates': [],
             'SolarVoltage': [],
@@ -98,7 +115,6 @@ var app = new Vue({
             'BattCurrent': [],
             'LoadCurrent': []
         },
-
     },
     methods: {
         pingServer: function() {
@@ -130,8 +146,7 @@ var app = new Vue({
 
     },
     async mounted() {
-
-        // this.loadData();
+        this.loadData()
         setInterval(async() => {
             this.getLiveData()
             socket.emit('liveData')

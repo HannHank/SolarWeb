@@ -21,3 +21,4 @@ toml==0.10.0
 Werkzeug==0.15.5
 pymodbus==2.1.0
 paho-mqtt==1.4.0
+pandas
