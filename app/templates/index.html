@@ -10,50 +10,20 @@
             <button @click="loadLiveData()">LiveData</button>
 
             <h4>Requested Data:</h4>
-            <p v-if="data != 0">{{data}}</p>
+            <!-- <p v-if="data != 0">{{data}}</p> -->
             <div class="small">
-                <line-chart :chart-data="datacollection" :post-title="labels" :solar-data="data"></line-chart>
-                <button @click=" fillData() ">Randomize</button>
+                <line-chart :data="dataChart " :options="{responsive: true, maintainAspectRatio: false} "></line-chart>
+
             </div>
 </div>
-<script>
-    // import {
-    //     line
-    // } from 'vue-chartjs'
-    // export default {
-    //     components: {
-    //         LineChart
-    //     },
-    //     data() {
-    //         return {
-    //             datacollection: null
-    //         }
-    //     },
-    //     mounted() {
-    //         this.fillData()
-    //     },
-    //     methods: {
-    //         fillData() {
-    //             this.datacollection = {
-    //                 labels: [this.getRandomInt(), this.getRandomInt()],
-    //                 datasets: [{
-    //                     label: 'Data One',
-    //                     backgroundColor: '#f87979',
-    //                     data: [this.getRandomInt(), this.getRandomInt()]
-    //                 }, {
-    //                     label: 'Data One',
-    //                     backgroundColor: '#f87979',
-    //                     data: [this.getRandomInt(), this.getRandomInt()]
-    //                 }]
-    //             }
-    //         },
-    //         getRandomInt() {
-    //             return Math.floor(Math.random() *
-    //                 (50 - 5 + 1)) + 5
-    //         }
-    //     }
-    // }
-</script>
+<!-- <div id="app">
+    {{ dataChart }}
+    <button v-on:click="loadData ">Change data</button>
+    <line-chart :data="dataChart " :options="{responsive: true, maintainAspectRatio: false} "></line-chart>
+
+</div> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.min.js "></script>
+<script src="https://unpkg.com/vue-chartjs@2.5.7-rc3/dist/vue-chartjs.full.min.js "></script>
 <style>
     .small {
         max-width: 600px;

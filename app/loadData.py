@@ -9,31 +9,44 @@ class SolarStation():
         #DateFrom = datetime.strptime('2021-04-03 06:19:00', '%Y-%m-%d %H:%M:%S')
         if(DateTo == ''):
             DateTo=datetime.now().replace(second=0, microsecond=0)
-        
+       
+
         df = pd.read_csv('./data.csv',parse_dates=[0])   
+    
         #df.Date = pd.to_datetime(df.Date, format = '%Y-%m-%d %H:%M:%S')
         # df.Date= df.Date.apply(lambda x: 
         #                             datetime.strptime(x,'%Y-%m-%d %H:%M:%S'))
        
         df = df.query("Date >=  '" + str(DateFrom) + "' and Date <= '" + str(DateTo) + "'")
         #df = df[(df.Date > DateFrom) & (df.Date > a)]
-        #data = df.assign(**df.select_dtypes(['datetime']).astype(str).to_dict('list')).to_json(orient="records") #date_format = "iso" # df.to_json(orient = "records") 
-        data= {}
+        #data = df.assign(**df.select_dtypes(['datetime']).ast  ype(str).to_dict('list')).to_json(orient="records") #date_format = "iso" # df.to_json(orient = "records") 
+        # this code is not very efficient, but pandas sucks... TODO
+        Dates = []
+        SolarVoltage = []
+        SolarCurrent = []
+        BattVoltage = []
+        BattCurrent = []
+        LoadCurrent = []
+        for index, row in df.iterrows():
+            Dates.append(row[0].strftime('%Y-%m-%d %H:%M:%S'))
+            SolarVoltage.append(row[1])
+            SolarCurrent.append(row[2])
+            BattVoltage.append(row[3])
+            BattCurrent.append(row[4])
+            LoadCurrent.append(row[5])
 
-        df.Date = df.Date.dt.strftime('%Y-%m-%d %H:%M:%S')
-
+        #for idx, val in enumerate(df.columns):
+               
+               # test[val].append(row[idx])
+            
+        #df.Date = df.Date.dt.strftime('%Y-%m-%d %H:%M:%S')
+        #print("test",Dates)
         #df.Date.apply(datetime.strftime('%Y-%m-%d %H:%M:%S'))
         #pd.strftime()
         #pd.to_datetime(pd.Series(df.Date))
         #df['Date'] = df.loc['Date'].dt.strftime('%Y-%m-%d %H:%M:%S')
-        df = df.to_dict()
-        # data['SolarVoltage'] =list(df.Date)
-        # data['SolarCurrent']  =list(df.Date)
-        # data['BattVoltage'] = list(df.Date)
-        # data['BattCurrent'] = list(df.Date)
-        # data['LoadCurrent'] = df.LoadCurrent.toList()
-        
-        return  df
+        #df = df.to_dict()
+        return  {'Dates':Dates,'SolarVoltage':SolarVoltage,'SolarCurrent':SolarCurrent,'BattVoltage':BattVoltage,'BattCurrent':BattCurrent,'LoadCurrent':LoadCurrent}
     def loadLiveData(self,port="dev/ttyRSX0"):
         try:
             client = ModbusClient(method = 'rtu', port = port, baudrate = 115200)

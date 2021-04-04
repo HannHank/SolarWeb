@@ -12,9 +12,6 @@ def pingServer(message):
     print(message)
     solar = loadData.SolarStation()
     data = solar.loadHistory(message['DateFrom'], message['DateTo'])
-    data['Date'] = str(data['Date'])
-    
-    print(type(data))
     emit("loadedData", data )
 
 @socketio.on("liveData")
