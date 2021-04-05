@@ -150,10 +150,9 @@ var app = new Vue({
 
     },
     async mounted() {
-        //this.loadData()
+        this.loadData()
         setInterval(async() => {
-            this.getLiveData()
-            socket.emit('liveData')
+            this.loadLiveData()
                 // console.log("dataset: ",this.labels,this.data);
         }, 3600000);
     }

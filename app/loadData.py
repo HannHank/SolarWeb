@@ -5,7 +5,10 @@ import json
 import random
 from dotenv import load_dotenv
 import os
+
+load_dotenv()
 CsvPath = os.getenv("CSV")
+
 class SolarStation():
     def __init__(self):
         print("init solar")
