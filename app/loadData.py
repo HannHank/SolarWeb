@@ -3,14 +3,16 @@ from pymodbus.client.sync import ModbusSerialClient as ModbusClient
 from datetime import * 
 import json
 import random
-
+from dotenv import load_dotenv
+import os
+CsvPath = os.getenv("CSV")
 class SolarStation():
     def __init__(self):
         print("init solar")
     def loadHistory(self,DateFrom, DateTo=datetime.now().replace(second=0, microsecond=0),updating='0'):
         if(DateTo == ''):
             DateTo=datetime.now().replace(second=0, microsecond=0)
-        df = pd.read_csv('./data.csv',parse_dates=[0])   
+        df = pd.read_csv(CsvPath,parse_dates=[0])   
         upDate = DateFrom
         if updating == '1':
             upDate = datetime.strptime(DateFrom, "%Y-%m-%d %H:%M:%S")
