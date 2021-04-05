@@ -154,7 +154,7 @@ var app = new Vue({
         setInterval(async() => {
             this.loadLiveData()
                 // console.log("dataset: ",this.labels,this.data);
-        }, 3600000);
+        }, 360000);
     }
 
 })
