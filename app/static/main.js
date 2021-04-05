@@ -56,20 +56,24 @@ Vue.component("line-chart", {
                 ]
             }, {
                 responsive: true,
+                // aspectRatio: 4,
                 maintainAspectRatio: false,
                 legend: {
                     labels: {
+
                         fontColor: '#FFFFFF',
                     }
                 },
                 scales: {
                     yAxes: [{
                         ticks: {
+                            beginAtZero: true,
                             fontColor: '#F4A261',
                         }
                     }],
                     xAxes: [{
                         ticks: {
+                            beginAtZero: true,
                             fontColor: '#F4A261',
                         }
                     }]
@@ -146,7 +150,7 @@ var app = new Vue({
 
     },
     async mounted() {
-        this.loadData()
+        //this.loadData()
         setInterval(async() => {
             this.getLiveData()
             socket.emit('liveData')

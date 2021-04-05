@@ -29,28 +29,37 @@
     </div>
     <div class="block" id="chart">
         <h2>History</h2>
-        <line-chart :data="dataChart " :options="{responsive: true, maintainAspectRatio: false} "></line-chart>
+        <line-chart :data="dataChart"></line-chart>
     </div>
-    <div class="block" id="settings">
+    <div class=" block " id="settings ">
         <h2>Settings</h2>
-        <input v-model="DateFrom">
-        <button @click="loadData()">loadData</button>
+        <input v-model="DateFrom ">
+        <button @click="loadData() ">loadData</button>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.min.js "></script>
 <script src="https://unpkg.com/vue-chartjs@2.5.7-rc3/dist/vue-chartjs.full.min.js "></script>
 
 <style>
-    body {
+    /* body {
         height: 100vh;
-    }
+    } */
+    
+    #line-chart {}
+    /* #chart {
+        width: 100%;
+        height: 100%;
+    } */
     
     #app {
-        display: grid;
+        /* text-align: center;
+        color: #2c3e50;
+        margin-top: 60px; */
+        /* display: grid;
         grid-template-columns: 0.7fr 1fr;
-        grid-gap: 10px;
+        grid-gap: 10px; */
     }
-    
+    /*     
     @media only screen and (max-width: 1000px) {
         body {
             min-height: 100vh;
@@ -60,6 +69,6 @@
             min-width: 100vh;
             grid-template-columns: repeat(1, 1fr);
         }
-    }
+    } */
 </style>
 {% endraw %} {% endblock %}

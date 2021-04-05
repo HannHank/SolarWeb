@@ -8,4 +8,4 @@ if __name__ == "__main__":
     parser.add_argument("--debug", action="store_true")
     args = parser.parse_args()
     app = create_app()
-    live.socketio.run(app, debug=args.debug)
+    live.socketio.run(app,host="0.0.0.0",debug=args.debug)
