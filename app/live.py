@@ -11,15 +11,17 @@ def pingServer(message):
 def pingServer(message):
     print(message)
     solar = loadData.SolarStation()
-    data = solar.loadHistory(message['DateFrom'], message['DateTo'],message['updating'])
+    data = solar.loadHistory(message['DateFrom'], message['DateTo'])
     emit("loadedData", data )
 
 @socketio.on("liveData")
-def pingServer():
+def pingServer(message):
+    print(message)        
     solar = loadData.SolarStation()
-    data = solar.loadLiveData()
+    data = solar.loadLiveData(message['lastDate'])
     print(data)
-    if(data == False):
-       emit("loadedLiveData", {"data": data,"errMsg":"Could not read Data from Station"})
-    else:
-       emit("loadedLiveData", {"data": data,"errMsg":""})
+    emit("loadedLiveData", {"data": data,"errMsg":"Could not read Data from Station"})
+    # if(data == False):
+    #    emit("loadedLiveData", {"data": data,"errMsg":"Could not read Data from Station"})
+    # else:
+    #    emit("loadedLiveData", {"data": data,"errMsg":""})

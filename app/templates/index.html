@@ -4,6 +4,7 @@
 <div id="app">
     <div class="block" id="liveData">
         <h2>Live Data</h2>
+        <p v-if="errMsg != ''">{{errMsg}}</p>
         <table>
             <tr>
                 <td>SolarVoltage:</td>
@@ -29,16 +30,15 @@
     </div>
     <div class="block" id="chart">
         <h2>History</h2>
-        <line-chart :data="dataChart"></line-chart>
+        <line-chart :data="dataChart" :update-trigger="updateTrigger" :update-trigger-reload="updateTriggerReload"></line-chart>
     </div>
     <div class=" block " id="settings ">
         <h2>Settings</h2>
         <input v-model="DateFrom ">
         <button @click="loadData() ">loadData</button>
+        <button @click="loadLiveData()">loadLiveData</button>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.min.js "></script>
-<script src="https://unpkg.com/vue-chartjs@2.5.7-rc3/dist/vue-chartjs.full.min.js "></script>
 
 <style>
     /* body {
