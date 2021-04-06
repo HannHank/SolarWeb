@@ -198,7 +198,7 @@ socket.on('loadedLiveData', function(msg) {
             // add new data
             app.dataChart[Object.keys(app.dataChart)[i]].push(msg.data[Object.keys(app.dataChart)[i]])
         }
-        console.log(appt.dataChart)
+        console.log(app.dataChart)
         app.updateTrigger = !app.updateTrigger
         app.errMsg = ''
             // }
