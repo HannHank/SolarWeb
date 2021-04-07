@@ -188,7 +188,7 @@ socket.on('loadedLiveData', function(msg) {
     console.log(msg.data['newData'])
     console.log("data befor", msg.data)
     if (msg.data['newData'] == true) {
-        len = Object.keys(app.dataChart).length - 1
+        len = Object.keys(app.dataChart).length
         for (i = 0; i < len; i++) {
             console.log("hello")
             console.log((app.dataChart[Object.keys(app.dataChart)[i]].length))
