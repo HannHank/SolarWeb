@@ -186,6 +186,7 @@ socket.on('loadedData', function(msg) {
 socket.on('loadedLiveData', function(msg) {
     //check if data is new
     console.log(msg.data['newData'])
+    console.log("data befor", msg.data)
     if (msg.data['newData'] == true) {
         len = Object.keys(app.dataChart).length - 1
         for (i = 0; i < len; i++) {
@@ -198,7 +199,7 @@ socket.on('loadedLiveData', function(msg) {
             // add new data
             app.dataChart[Object.keys(app.dataChart)[i]].push(msg.data[Object.keys(app.dataChart)[i]])
         }
-        console.log(app.dataChart)
+        console.log("data after: ", app.dataChart)
         app.updateTrigger = !app.updateTrigger
         app.errMsg = ''
             // }
