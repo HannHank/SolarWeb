@@ -194,6 +194,7 @@ socket.on('loadedLiveData', function(msg) {
             console.log((app.dataChart[Object.keys(app.dataChart)[i]].length))
                 //remove first entry 
             if (app.dataChart[Object.keys(app.dataChart)[i]].length >= 1) {
+                console.log("topic: ", Object.keys(app.dataChart)[i], " with value: ", msg.data[Object.keys(app.dataChart)[i]])
                 app.dataChart[Object.keys(app.dataChart)[i]].shift()
             }
             // add new data
