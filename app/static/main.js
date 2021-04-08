@@ -158,7 +158,7 @@ var app = new Vue({
         this.loadData()
         setInterval(async() => {
             this.loadLiveData()
-        }, 10000);
+        }, 360000);
     }
 
 })
