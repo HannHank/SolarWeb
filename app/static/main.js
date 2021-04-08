@@ -158,7 +158,7 @@ var app = new Vue({
         this.loadData()
         setInterval(async() => {
             this.loadLiveData()
-        }, 360000);
+        }, 10000);
     }
 
 })
@@ -185,9 +185,9 @@ socket.on('loadedData', function(msg) {
 
 socket.on('loadedLiveData', function(msg) {
     //check if data is new
-    console.log(msg.data['newData'])
+    console.log(msg.data['newDate'])
     console.log("data befor", msg.data)
-    if (msg.data['newData'] == true) {
+    if (msg.data['newDate'] == true) {
         len = Object.keys(app.dataChart).length
         for (i = 0; i < len; i++) {
             console.log("hello")
@@ -198,7 +198,7 @@ socket.on('loadedLiveData', function(msg) {
                 app.dataChart[Object.keys(app.dataChart)[i]].shift()
             }
             // add new data
-            app.dataChart[Object.keys(app.dataChart)[i]].push(msg.data[Object.keys(app.dataChart)[i]])
+            app.dataChart[Object.keys(app.dataChart)[i]].push.apply(app.dataChart[Object.keys(app.dataChart)[i]], msg.data[Object.keys(app.dataChart)[i]])
         }
         console.log("data after: ", app.dataChart)
         app.updateTrigger = !app.updateTrigger
