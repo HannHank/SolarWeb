@@ -87,6 +87,7 @@ Vue.component("line-chart", {
                         ticks: {
                             beginAtZero: true,
                             fontColor: '#F4A261',
+
                         }
                     }]
                 }
@@ -120,6 +121,10 @@ var app = new Vue({
         errMsg: '',
         DateFrom: d, //'2021-04-03 06:34:00',
         DateTo: '',
+        predictedDate: '',
+        predictionVoltage: 23.8,
+        entries: 5,
+        score: '',
         dataChart: {
             'Dates': [1],
             'SolarVoltage': [2],
@@ -130,9 +135,6 @@ var app = new Vue({
         },
     },
     methods: {
-        pingServer: function() {
-            socket.emit('pingServer', 'PING!')
-        },
         loadData: function() {
             socket.emit('loadData', {
                 'DateFrom': this.DateFrom,
@@ -146,6 +148,12 @@ var app = new Vue({
                 'lastDate': this.dataChart['Dates'][(this.dataChart['Dates'].length - 1)]
             })
 
+        },
+        predictDate: function() {
+            socket.emit('predictDate_', {
+                'Voltage': this.predictionVoltage,
+                'entries': this.entries
+            })
         },
 
         getRandomInt() {
@@ -182,7 +190,10 @@ socket.on('loadedData', function(msg) {
     app.dataChart = msg
     app.updateTriggerReload = !app.updateTriggerReload
 })
-
+socket.on('predictedDate_', function(msg) {
+    app.predictedDate = msg['Date']
+    app.score = msg['score']
+})
 socket.on('loadedLiveData', function(msg) {
     //check if data is new
     console.log(msg.data['newDate'])
