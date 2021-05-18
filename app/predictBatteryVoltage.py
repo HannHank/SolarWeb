@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from sklearn import linear_model
 
-def predictBVoltage(entries:int, Voltage:int):
+def predictBVoltage(entries:int, Voltage:float):
     CsvPath = os.getenv("CSV")
     df = pd.read_csv(CsvPath,parse_dates=[0])
     df = df.iloc[(entries * -1):] 
@@ -32,7 +32,6 @@ def predictBVoltage(entries:int, Voltage:int):
     data = regr.predict(Voltage.reshape(-1,1))
     for date in data:
         #there is only one entry, could be cleaned up
-        date = date.astype(int)
         date = date[0]
         date = date / 1000000000
         date = datetime.fromtimestamp(date).strftime('%Y-%m-%d %H:%M:%S')
