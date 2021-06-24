@@ -131,7 +131,8 @@ var app = new Vue({
             'SolarCurrent': [],
             'BattVoltage': [],
             'BattCurrent': [],
-            'LoadCurrent': []
+            'LoadCurrent': [],
+            'Watt':[]
         },
     },
     methods: {

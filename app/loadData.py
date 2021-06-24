@@ -32,6 +32,7 @@ class SolarStation():
         BattVoltage = []
         BattCurrent = []
         LoadCurrent = []
+        watt =  []
         for index, row in df.iterrows():
             Dates.append(row[0].strftime('%Y-%m-%d %H:%M:%S'))
             SolarVoltage.append(row[1])
@@ -39,8 +40,9 @@ class SolarStation():
             BattVoltage.append(row[3])
             BattCurrent.append(row[4])
             LoadCurrent.append(row[5])
+            watt.append(row[6])
 
-        return  {'Dates':Dates,'SolarVoltage':SolarVoltage,'SolarCurrent':SolarCurrent,'BattVoltage':BattVoltage,'BattCurrent':BattCurrent,'LoadCurrent':LoadCurrent}
+        return  {'Dates':Dates,'SolarVoltage':SolarVoltage,'SolarCurrent':SolarCurrent,'BattVoltage':BattVoltage,'BattCurrent':BattCurrent,'LoadCurrent':LoadCurrent,'Watt':watt}
     def loadLiveData(self,lastDate):
         # state = if we found new data in dataset
         print("lastDate: ",lastDate)
@@ -55,6 +57,7 @@ class SolarStation():
         BattVoltage = []
         BattCurrent = []
         LoadCurrent = []
+        watt = []
         for index, row in df.iterrows():
             Dates.append(row[0].strftime('%Y-%m-%d %H:%M:%S'))
             SolarVoltage.append(row[1])
@@ -62,11 +65,12 @@ class SolarStation():
             BattVoltage.append(row[3])
             BattCurrent.append(row[4])
             LoadCurrent.append(row[5])
+            watt.append(row[6])
         if len(Dates) == 0:
             state = False
         else:
             state = True    
-        return  {'Dates':Dates,'SolarVoltage':SolarVoltage,'SolarCurrent':SolarCurrent,'BattVoltage':BattVoltage,'BattCurrent':BattCurrent,'LoadCurrent':LoadCurrent,'newDate':state}
+        return  {'Dates':Dates,'SolarVoltage':SolarVoltage,'SolarCurrent':SolarCurrent,'BattVoltage':BattVoltage,'BattCurrent':BattCurrent,'LoadCurrent':LoadCurrent,'newDate':state,'Watt':watt}
         # state = True 
         # df = pd.read_csv(CsvPath,parse_dates=[0])  
         # p = len(df.Date) -1

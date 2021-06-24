@@ -6,25 +6,24 @@
         <h2>Live Data</h2>
         <p v-if="errMsg != ''">{{errMsg}}</p>
         <table>
-            <tr>
+            <tr id="solar">
                 <td>SolarVoltage:</td>
                 <td>{{dataChart['SolarVoltage'][(dataChart['SolarVoltage'].length -1)]}}</td>
-            </tr>
-            <tr>
                 <td>SolarCurrent:</td>
                 <td>{{dataChart['SolarCurrent'][(dataChart['SolarCurrent'].length -1)]}}</td>
             </tr>
-            <tr>
+            <tr id="batt">
                 <td>BattVoltage:</td>
                 <td>{{dataChart['BattVoltage'][(dataChart['BattVoltage'].length -1)]}}</td>
-            </tr>
-            <tr>
                 <td>BattCurrent:</td>
                 <td>{{dataChart['BattCurrent'][(dataChart['BattCurrent'].length -1)]}}</td>
             </tr>
+            
             <tr>
                 <td>LoadCurrent:</td>
                 <td>{{dataChart['LoadCurrent'][(dataChart['LoadCurrent'].length -1)]}}</td>
+                <td>LoadConsumed:</td>
+                <td>{{dataChart['Watt'][(dataChart['Watt'].length -1)].toFixed(2)}}</td>
             </tr>
         </table>
     </div>
@@ -58,6 +57,21 @@
     
     #result {
         margin-top: 5px;
+    }
+    .floatLeft{
+        float:left
+    }
+    .floatRight{
+        float:right
+    }
+    #solar{
+      
+    }
+    #batt{
+       
+    }
+    #one td{
+        border: 1px solid black; 
     }
     /*     
     @media only screen and (max-width: 1000px) {
